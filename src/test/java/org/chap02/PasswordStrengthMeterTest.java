@@ -31,4 +31,28 @@ public class PasswordStrengthMeterTest {
         meter = passwordStrengthMeter.meter("");
         assertEquals(PasswordStrength.INVALID, meter);
     }
+
+    @Test
+    public void meetsOtherCriteria_except_for_Uppercase_Then_Normal(){
+        PasswordStrength meter = passwordStrengthMeter.meter("ab12!@df");
+        assertEquals(PasswordStrength.NORMAL, meter);
+    }
+
+    @Test
+    public void meetsOnlyLengthCriteria_Then_Weak(){
+        PasswordStrength meter = passwordStrengthMeter.meter("abcdefgh");
+        assertEquals(meter, PasswordStrength.WEAK);
+    }
+
+    @Test
+    public void meetsOnlyUpperCriteria_Then_Weak(){
+        PasswordStrength meter = passwordStrengthMeter.meter("ABZEF");
+        assertEquals(meter, PasswordStrength.WEAK);
+    }
+
+    @Test
+    public void meetsNoCriteria_Then_Weak(){
+        PasswordStrength meter = passwordStrengthMeter.meter("abc");
+        assertEquals(meter, PasswordStrength.WEAK);
+    }
 }
